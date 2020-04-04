@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'rack/env'
+require 'dotenv/load'
 require 'twilio-ruby'
 
 class TwilioSms
