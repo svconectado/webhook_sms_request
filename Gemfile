@@ -1,6 +1,7 @@
 # Gemfile
 source "https://rubygems.org"
 ruby '2.7.0'
+gem 'dotenv-rails', groups: [:development, :test]
 gem "sinatra", "2.0.8.1"
 gem "rack-env", "0.1.3"
 gem "rerun", "0.13.0"
