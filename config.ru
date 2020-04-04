@@ -13,7 +13,7 @@ if ENV['RACK_ENV'] == 'production'
     password: ENV['REDIS_PASSWORD'].to_s
   }
 else
-  base_path = File.expand_path(File.dirname(File.dirname(__FILE__)))
+  base_path = File.dirname(__FILE__)
   use Rack::Env, envfile: "#{base_path}/.env"
   redis_hash = { url: "redis://#{ENV['REDIS_HOST']}:#{ENV['REDIS_PORT']}" }
 end
