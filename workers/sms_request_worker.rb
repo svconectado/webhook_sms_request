@@ -1,5 +1,5 @@
+require 'dotenv/load'
 require "sidekiq"
-require 'rack/env'
 require "net/http"
 require "json"
 require "sinatra/activerecord"
