@@ -6,7 +6,6 @@ require 'sidekiq/web'
 require 'active_support/security_utils'
 require './app'
 
-puts "===============================> env data: #{ENV}"
 
 if ENV['RACK_ENV'] == 'production'
   redis_hash = {
