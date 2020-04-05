@@ -1,10 +1,11 @@
 # config.ru
 require 'dotenv/load'
-require_relative './config/environment'
+
 require 'sidekiq'
 require 'sidekiq/web'
 require 'active_support/security_utils'
 require './app'
+require_relative './config/environment'
 
 if ENV['RACK_ENV'] == 'production'
   redis_hash = {
