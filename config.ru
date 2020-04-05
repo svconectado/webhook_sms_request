@@ -9,6 +9,7 @@ require 'sidekiq'
 require 'sidekiq/web'
 
 if ENV['RACK_ENV'] == 'production'
+  use Rack::Env
   redis_hash = {
     url: "redis://#{ENV['REDIS_HOST']}:#{ENV['REDIS_PORT']}",
     password: ENV['REDIS_PASSWORD'].to_s
