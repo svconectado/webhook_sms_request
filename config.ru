@@ -1,9 +1,7 @@
 # config.ru
 require 'dotenv/load'
-
 require 'active_support/security_utils'
 require './app'
-# require_relative './config/environment'
 require 'sidekiq'
 require 'sidekiq/web'
 
