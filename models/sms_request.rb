@@ -1,9 +1,9 @@
 require 'sidekiq'
 require 'telephone_number'
-require_relative "../workers/sms_request_worker"
+require_relative '../workers/sms_request_worker'
 
 class SmsRequest < ActiveRecord::Base
-  self.table_name = "sms_requests"
+  self.table_name = 'sms_requests'
   validates :phone, :dui, presence: true
 
   after_create :send_request_to_sidekiq
@@ -16,9 +16,9 @@ class SmsRequest < ActiveRecord::Base
     request_dui = param_dui.gsub('-','').gsub('_','').strip
 
     # Chekamos si ya hubo una solicitud pendiente
-    sms_requests=SmsRequest.where(dui: request_dui, status: 0)
+    sms_requests = SmsRequest.where(dui: request_dui, status: 0)
 
-    resp_message = sms_requests.size == 0 ? "request creada" : "request activa encontrada"
+    resp_message = sms_requests.size == 0 ? 'request creada' : 'request activa encontrada'
     resp = { message: resp_message, status: 200 }
     resp
   end
