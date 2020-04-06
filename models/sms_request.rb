@@ -21,7 +21,6 @@ class SmsRequest < ActiveRecord::Base
       sms_requests=SmsRequest.where(dui: request_dui, status: 0)
       
       if sms_requests.size == 0
-        new_request=SmsRequest.create(dui: request_dui, phone: request_phone)
         resp = {message: "request creada", status: 200 }
       else
         resp = {message: "request activa encontrada", status: 200 }
