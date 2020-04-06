@@ -2,8 +2,6 @@ FROM ruby:2.7.0
 
 RUN apt-get update -qq && \
     apt-get install -y build-essential \
-                       default-mysql-client \
-                       vim \
                        --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
