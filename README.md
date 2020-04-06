@@ -1,5 +1,3 @@
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=webhook_sms_request&metric=alert_status)](https://sonarcloud.io/dashboard?id=webhook_sms_request)
-
 # README
 
 ## SMS Twillio Service Usage
