@@ -1,34 +1,33 @@
 version: "3.7"
 services: 
-    redis:
-        image: redis:latest
-    postgres:
-        image: postgres:latest
-        environment: 
-            - POSTGRES_PASSWORD=developer
-            - POSTGRES_DB=sms_queue
-    webapp:
-        build: .
-        ports: 
-            - "9292:9292"
-        environment:
-            - PORT:8090
-            - DATABASE_HOST=postgres
-            - DATABASE_NAME=sms_queue
-            - DATABASE_USER=postgres
-            - DATABASE_PASSWORD=developer
-            - REDIS_HOST=redis
-            - REDIS_PORT=6379
-            - REDIS_PASSWORD=''
-            - TWILIO_ACCOUNT_SID=a
-            - TWILIO_ACCOUNT_TOKEN=b
-            - TWILIO_PHONE_NUMBER=c
-            - SCRAPPER_SERVICE=https://api-sms-test.sv.quenecesito.org/sms
-            - SCRAPPER_READ_TIMEOUT=120
-            - SCRAPPER_OPEN_TIMEOUT=120
-            - RACK_ENV=development
-            - SIDEKIQ_USERNAME=admin
-            - SIDEKIQ_PASSWORD=admin
-        depends_on:
-            - postgres
-            - redis
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis:/data
+  postgres:
+    ports:
+      - "5432:5432"
+    image: postgres:latest
+    environment: 
+      - POSTGRES_PASSWORD=developer
+      - POSTGRES_DB=sms_queue
+    volumes:
+      - postgres:/var/lib/postgresql/data
+  webapp:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+    - "9292:9292"
+    env_file: .env
+    environment:
+    - DATABASE_HOST=postgres
+    - REDIS_HOST=redis
+    depends_on:
+    - postgres
+    - redis
+volumes:
+  postgres: {}
+  redis: {}
