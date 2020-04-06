@@ -13,20 +13,14 @@ class SmsRequest < ActiveRecord::Base
   end
   
   def self.save_sms_request(param_phone, param_dui)
-
-    request_phone = TelephoneNumber.parse(param_phone.strip).e164_number
     request_dui = param_dui.gsub('-','').gsub('_','').strip
-      
-      # Chekamos si ya hubo una solicitud pendiente
-      sms_requests=SmsRequest.where(dui: request_dui, status: 0)
-      
-      if sms_requests.size == 0
-        resp = {message: "request creada", status: 200 }
-      else
-        resp = {message: "request activa encontrada", status: 200 }
-      end
-      
-      return resp
+
+    # Chekamos si ya hubo una solicitud pendiente
+    sms_requests=SmsRequest.where(dui: request_dui, status: 0)
+
+    resp_message = sms_requests.size == 0 ? "request creada" : "request activa encontrada"
+    resp = { message: resp_message, status: 200 }
+    resp
   end
   
 end
