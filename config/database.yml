@@ -1,10 +1,10 @@
 development:
-  host: localhost
+  host: <%= ENV['DATABASE_HOST'] %>
   adapter: postgresql
   encoding: unicode
   pool: 2
-  database: sms_queue
-  username: postgres
-  password: developer
+  database: <%= ENV['DATABASE_NAME'] %>
+  username: <%= ENV['DATABASE_USER'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
 production:
   url: <%= ENV['DATABASE_URL'] %>
