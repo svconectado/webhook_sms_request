@@ -5,6 +5,11 @@ require './app'
 require 'sidekiq'
 require 'sidekiq/web'
 
+#ejemplos
+require './echo'
+require './endpoint'
+require './beneficio300usd'
+
 
 if ENV['RACK_ENV'] == 'production'
   redis_hash = {
@@ -29,4 +34,9 @@ Sidekiq::Web.use Rack::Auth::Basic, 'Admin' do |username, password|
   )
 end
 
-run Rack::URLMap.new('/sidekiq' => Sidekiq::Web, '/' => App)
+run Rack::URLMap.new(
+  '/sidekiq' => Sidekiq::Web, 
+  '/' => Endpoint,
+  '/echo' => Echo,
+  '/beneficio300usd' => Beneficio300usd
+)
