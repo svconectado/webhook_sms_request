@@ -8,7 +8,9 @@ require 'sidekiq/web'
 #ejemplos
 require_relative './endpoints/echo'
 require_relative './endpoints/beneficio300usd'
-
+require_relative './endpoints/digicel_incoming'
+require_relative './endpoints/twilio_delivery'
+require_relative './endpoints/webhook'
 
 if ENV['RACK_ENV'] == 'production'
   redis_hash = {
@@ -35,7 +37,10 @@ end
 
 run Rack::URLMap.new(
   '/sidekiq' => Sidekiq::Web, 
-  '/' => App,
+  '/' => DigicelIncoming,
   '/echo' => Echo,
-  '/beneficio300usd' => Beneficio300usd
+  '/beneficio300usd' => Beneficio300usd,
+  '/hub' => App,
+  '/twilio' => TwilioDelivery,
+  '/webhook' => Webhook
 )

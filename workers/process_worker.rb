@@ -11,6 +11,9 @@ class ProcessWorker
     
   def perform(id)
     msg = Message.find(id)
+    if !msg
+      raise Exception.new "Missing row: #{id}"
+    end
     response = CallService(msg.service, msg.payload)
     msg.update(response: response.body)
     DispatchWorker.perform_async(id)

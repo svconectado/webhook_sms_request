@@ -2,12 +2,12 @@ require 'dotenv/load'
 require "net/http"
 require "json"
 require 'sinatra'
+require_relative './endpoint_base'
 
-require_relative "../services/twilio_sms"
-
-class Beneficio300usd < Sinatra::Base
+class Beneficio300usd < EndpointBase
   post '/' do
     payload = JSON.parse(request.body.read)
+    validate(payload, ['dui'])
     dui = payload['dui']
     read_timeout = ENV['SCRAPPER_READ_TIMEOUT'].to_i 
     open_timeout = ENV['SCRAPPER_OPEN_TIMEOUT'].to_i
@@ -18,9 +18,10 @@ class Beneficio300usd < Sinatra::Base
       :open_timeout => open_timeout)
     request = Net::HTTP::Get.new enpoint
     response = http.request(request)
-    resp = response.body
+    body = response.body
+    #TODO: Procesar respuesta
     content_type :json
-    halt status, resp
+    halt status, body
   end
 end
 
