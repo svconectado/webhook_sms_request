@@ -1,17 +1,20 @@
 require 'sinatra'
-require 'sinatra/activerecord'
-require 'pg'
 require 'json'
-require_relative './models/sms_request'
+require_relative './workers/enqueue_worker'
 
 class App < Sinatra::Base
-  get '/' do
-    if params["AccountSid"].present? and params["MessageSid"].present? and params["Body"].present? and params["From"].present?
-      resp=SmsRequest.save_sms_request(params["From"], params["Body"])
-    elsif params["dui"].present? and params["phone"].present?
-      resp=SmsRequest.save_sms_request(params["phone"], params["dui"])
+  post '/' do
+    if params["service"].present? and params["payload"].present? and params["delivery"].present?
+    begin
+        message = { service: params["service"], payload: params["payload"], delivery: params["delivery"]}
+        EnqueueWorker.perform_async(message)
+        resp = { message: 'Ok', status: 200}
+    rescue => exception 
+        p exception
+        resp = { message: 'Server error', status: 500}
+    end
     else
-      resp = { message: 'Invalid Params', status: 400}
+      resp = { message: 'Bad request', status: 400}
     end
     
     content_type :json
@@ -20,3 +23,4 @@ class App < Sinatra::Base
 
 end
 
+#Endpoint principal de ejemplo

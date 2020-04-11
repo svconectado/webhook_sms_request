@@ -3,16 +3,17 @@ require "sidekiq"
 require "json"
 require "net/http"
 require_relative "../services/registered_services"
+require_relative "../models/message"
+require 'sinatra/activerecord'
 
 class DispatchWorker
   include Sidekiq::Worker
 
   def perform(id)
-    #TODO: Leer desde el almacenamiento usando el id de acuerdo al patrón claim check (https://docs.microsoft.com/en-us/azure/architecture/patterns/claim-check)
-    service = "echo"
-    response = "Messaged Processed!"
-    self.CallService(service, response)
-    
+    msg = Message.find(id)
+    body = {"payload" => msg.payload, "response" => msg.response}
+    self.CallService(msg.delivery, "#{body}")
+    msg.destroy
   end
 
   #TODO: Usar este método desde un módulo (dispatch_worker.rb)

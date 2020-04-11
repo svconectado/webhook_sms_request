@@ -3,10 +3,12 @@ require 'json'
 
 class Echo < Sinatra::Base
   post '/' do
-    p request.body.read
-    resp = { message: 'Ok', status: 200}  
+    body = request.body.read
+    #echoing...
+    p body
+    resp = body
     content_type :json
-    halt status, resp.to_json
+    halt status, resp
   end
 end
 

@@ -6,9 +6,8 @@ require 'sidekiq'
 require 'sidekiq/web'
 
 #ejemplos
-require './echo'
-require './endpoint'
-require './beneficio300usd'
+require_relative './endpoints/echo'
+require_relative './endpoints/beneficio300usd'
 
 
 if ENV['RACK_ENV'] == 'production'
@@ -36,7 +35,7 @@ end
 
 run Rack::URLMap.new(
   '/sidekiq' => Sidekiq::Web, 
-  '/' => Endpoint,
+  '/' => App,
   '/echo' => Echo,
   '/beneficio300usd' => Beneficio300usd
 )

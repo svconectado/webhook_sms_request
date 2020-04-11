@@ -10,10 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_30_001136) do
+ActiveRecord::Schema.define(version: 2020_04_10_051401) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "messages", force: :cascade do |t|
+    t.string "service", null: false
+    t.string "payload", null: false
+    t.string "response", null: true
+    t.string "delivery", null: false
+  end
+
+  create_table "services", force: :cascade do |t|
+    t.string "service", null: false
+    t.string "description"
+    t.string "endpoint", null: false
+    t.index ["service"], name: "index_services_on_service", unique: true
+  end
 
   create_table "sms_requests", force: :cascade do |t|
     t.string "phone", default: "", null: false
